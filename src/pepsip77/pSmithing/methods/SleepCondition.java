@@ -7,11 +7,10 @@ package pepsip77.pSmithing.methods;
  *
  */
 public interface SleepCondition {
-	
-	/**
-	 * Determine if condition is valid
-	 * @return <b>true</b> if valid, otherwise <b>false</b>.
-	 */
-	public boolean isValid();
+    /**
+     * Determine if condition is valid
+     * @return <b>true</b> if valid, otherwise <b>false</b>.
+     */
+    public boolean isValid();
 
 }

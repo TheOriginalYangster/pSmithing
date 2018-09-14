@@ -14,131 +14,132 @@ import pepsip77.pSmithing.data.Data;
 import xobot.script.methods.tabs.Skills;
 
 public class PaintUtil {
+    private static FontMetrics FONTMETRICS = null;
 
-	private static FontMetrics FONTMETRICS = null;
+    public static void draw(Graphics g) {
+        int x = 15;
+        int y = 18;
 
-	public static void draw(Graphics g) {
-		int x = 15;
-		int y = 18;
+        int gainedXp = Skills.getCurrentExp(Skills.SMITHING) - Data.startXp;
+        int gainedLevels = Skills.getCurrentLevel(Skills.SMITHING) - Data.startLevel;
 
-		int gainedXp = Skills.getCurrentExp(Skills.SMITHING) - Data.startXp;
-		int gainedLevels = Skills.getCurrentLevel(Skills.SMITHING) - Data.startLevel;
+        if (FONTMETRICS == null)
+            FONTMETRICS = g.getFontMetrics();
 
-		if (FONTMETRICS == null)
-			FONTMETRICS = g.getFontMetrics();
+        drawGradientText(g, "pSmithing", x, y += 18, Color.GREEN, 0);
+        drawGradientText(g, Data.runtime.toElapsedString(), x, y += 18, Color.WHITE, -1);
+        drawGradientText(g, "Status: " + Data.status, x, y += 18, Color.WHITE, -1);
+        drawGradientText(
+            g,
+            "Smithing xp gained: " + formatNumber(gainedXp) + " /h: " + perHour(gainedXp),
+            x,
+            y += 18,
+            Color.WHITE,
+            -1
+        );
+        drawGradientText(g, "Smithing levels gained: " + gainedLevels, x, y += 18, Color.WHITE, -1);
 
-		drawGradientText(g, "pSmithing", x, y += 18, Color.GREEN, 0);
+    }
 
-		drawGradientText(g, Data.runtime.toElapsedString(), x, y += 18, Color.WHITE, -1);
-		drawGradientText(g, "Status: " + Data.status, x, y += 18, Color.WHITE, -1);
+    public static void drawGradientText(Graphics g, String text, int x, int y, Color c, int rectangleIndex) {
 
-		drawGradientText(g, "Smithing xp gained: " + formatNumber(gainedXp) + " /h: " + perHour(gainedXp), x, y += 18,
-				Color.WHITE, -1);
-		drawGradientText(g, "Smithing levels gained: " + gainedLevels, x, y += 18, Color.WHITE, -1);
+        Graphics2D g2 = (Graphics2D) g;
+        Color color3 = new Color(51, 51, 51, 205);
+        Font font1 = new Font("Arial", 0, 12);
 
-	}
+        g.setFont(font1);
+        FONTMETRICS = g.getFontMetrics();
 
-	public static void drawGradientText(Graphics g, String text, int x, int y, Color c, int rectangleIndex) {
+        Rectangle textBox = new Rectangle(
+            x,
+            y - g.getFont().getSize(),
+            (int) FONTMETRICS.getStringBounds(text, g).getWidth() + 8,
+            (int) FONTMETRICS.getStringBounds(text, g).getHeight() + 5
+        );
 
-		Graphics2D g2 = (Graphics2D) g;
-		Color color3 = new Color(51, 51, 51, 205);
-		Font font1 = new Font("Arial", 0, 12);
+        Paint defaultPaint = g2.getPaint();
 
-		g.setFont(font1);
+        g2.setPaint(
+            new RadialGradientPaint(
+                new Point.Double(
+                    textBox.x + textBox.width / 2.0D,
+                    textBox.y + textBox.height / 2.0D
+                ),
+                (float) (textBox.getWidth() / 2.0D),
+                new float[] { 0.5F, 1.0F },
+                new Color[] {
+                    new Color(color3.getRed(), color3.getGreen(), color3.getBlue(), 175),
+                    new Color(0.0F, 0.0F, 0.0F, 0.8F)
+                }
+            )
+        );
 
-		FONTMETRICS = g.getFontMetrics();
+        g.fillRect(textBox.x, textBox.y + 12, textBox.width, textBox.height);
+        g2.setPaint((java.awt.Paint) defaultPaint);
+        g.setColor(Color.BLACK);
+        g.drawRect(textBox.x, textBox.y + 12, textBox.width, textBox.height);
+        g.setColor(c);
+        g.drawString(text, x + 4, y + 15);
 
-		Rectangle textBox = new Rectangle(x, y - g.getFont().getSize(),
+        for (int i = 0; i < text.length(); i++) {
+            if (Character.isDigit(text.charAt(i))) {
+                g.setColor(new Color(255, 255, 255));
+                g.drawString(
+                    "" + text.charAt(i),
+                    x + FONTMETRICS.stringWidth(text.substring(0, i)) + 4,
+                    y + 15
+                );
+            }
+        }
+    }
 
-				(int) FONTMETRICS.getStringBounds(text, g).getWidth() + 8,
+    public static String getPercent(int value, int total) {
+        if (total == 0)
+            return String.format("%.2f", 0f);
 
-				(int) FONTMETRICS.getStringBounds(text, g).getHeight() + 5);
+        return String.format("%.2f", (double) ((double) (value * 100.00f) / total));
+    }
 
-		Paint defaultPaint = g2.getPaint();
+    public static String getPercent(long value, long total) {
+        if (total == 0)
+            return String.format("%.2f", 0f);
 
-		g2.setPaint(new RadialGradientPaint(new Point.Double(textBox.x
+        return String.format("%.2f", (double) ((double) (value * 100.00f) / total));
+    }
 
-				+ textBox.width / 2.0D, textBox.y + textBox.height / 2.0D),
+    public static String perHour(int gained) {
+        return formatNumber((int) ((gained) * 3600000D / (Data.runtime.getElapsed())));
+    }
 
-				(float) (textBox.getWidth() / 2.0D),
+    public static String perHour(long gained) {
+        return formatNumber((long) ((gained) * 3600000D / (Data.runtime.getElapsed())));
+    }
 
-				new float[] { 0.5F, 1.0F }, new Color[] {
+    public static String formatNumber(int start) {
+        double i = start;
 
-						new Color(color3.getRed(), color3.getGreen(), color3
+        if (i >= 1000000) {
+            return String.format("%.2f", (i / 1000000)) + "m";
+        }
 
-								.getBlue(), 175),
+        if (i >= 1000) {
+            return String.format("%.2f", (i / 1000)) + "k";
+        }
 
-						new Color(0.0F, 0.0F, 0.0F, 0.8F) }));
+        return "" + start;
+    }
 
-		g.fillRect(textBox.x, textBox.y + 12, textBox.width, textBox.height);
+    public static String formatNumber(long start) {
+        double i = start;
 
-		g2.setPaint((java.awt.Paint) defaultPaint);
+        if (i >= 1000000) {
+            return String.format("%.2f", (i / 1000000)) + "m";
+        }
 
-		g.setColor(Color.BLACK);
+        if (i >= 1000) {
+            return String.format("%.2f", (i / 1000)) + "k";
+        }
 
-		g.drawRect(textBox.x, textBox.y + 12, textBox.width, textBox.height);
-
-		g.setColor(c);
-
-		g.drawString(text, x + 4, y + 15);
-
-		for (int i = 0; i < text.length(); i++) {
-
-			if (Character.isDigit(text.charAt(i))) {
-
-				g.setColor(new Color(255, 255, 255));
-
-				g.drawString("" + text.charAt(i),
-
-						x + FONTMETRICS.stringWidth(text.substring(0, i)) + 4,
-
-						y + 15);
-
-			}
-
-		}
-
-	}
-
-	public static String getPercent(int value, int total) {
-		if (total == 0)
-			return String.format("%.2f", 0f);
-		return String.format("%.2f", (double) ((double) (value * 100.00f) / total));
-	}
-
-	public static String getPercent(long value, long total) {
-		if (total == 0)
-			return String.format("%.2f", 0f);
-		return String.format("%.2f", (double) ((double) (value * 100.00f) / total));
-	}
-
-	public static String perHour(int gained) {
-		return formatNumber((int) ((gained) * 3600000D / (Data.runtime.getElapsed())));
-	}
-
-	public static String perHour(long gained) {
-		return formatNumber((long) ((gained) * 3600000D / (Data.runtime.getElapsed())));
-	}
-
-	public static String formatNumber(int start) {
-		double i = start;
-		if (i >= 1000000) {
-			return String.format("%.2f", (i / 1000000)) + "m";
-		}
-		if (i >= 1000) {
-			return String.format("%.2f", (i / 1000)) + "k";
-		}
-		return "" + start;
-	}
-
-	public static String formatNumber(long start) {
-		double i = start;
-		if (i >= 1000000) {
-			return String.format("%.2f", (i / 1000000)) + "m";
-		}
-		if (i >= 1000) {
-			return String.format("%.2f", (i / 1000)) + "k";
-		}
-		return "" + start;
-	}
+        return "" + start;
+    }
 }
