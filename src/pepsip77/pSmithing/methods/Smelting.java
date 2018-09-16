@@ -23,7 +23,7 @@ public class Smelting {
                 && Widgets.getBackDialogId() != Data.SMELTING_WIDGET_ID) {
             Packets.sendAction(0, 0, 0, 0);
             Time.sleep(175, 200);
-            Packets.sendAction(900, furnance.uid, furnance.getX(), furnance.getY(), furnance.getId(), 1);
+            Packets.sendAction(900, furnance.uid, furnance.getX(), furnance.getY(), 1);
             Methods.conditionalSleep(new SleepCondition() {
                 @Override
                 public boolean isValid() {
@@ -33,7 +33,7 @@ public class Smelting {
         }
 
         if (Widgets.getBackDialogId() == Data.SMELTING_WIDGET_ID) {
-            Packets.sendAction(315, -1, -1, Data.currentBar.getSmeltingAction(), -1, 1);
+            Packets.sendAction(315, -1, -1, Data.currentBar.getSmeltingAction(), 1);
             Methods.conditionalSleep(new SleepCondition() {
                 @Override
                 public boolean isValid() {

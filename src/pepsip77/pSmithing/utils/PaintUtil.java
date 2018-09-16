@@ -20,8 +20,8 @@ public class PaintUtil {
         int x = 15;
         int y = 18;
 
-        int gainedXp = Skills.getCurrentExp(Skills.SMITHING) - Data.startXp;
-        int gainedLevels = Skills.getCurrentLevel(Skills.SMITHING) - Data.startLevel;
+        int gainedXp = Skills.SMITHING.getCurrentExp() - Data.startXp;
+        int gainedLevels = Skills.SMITHING.getCurrentLevel() - Data.startLevel;
 
         if (FONTMETRICS == null)
             FONTMETRICS = g.getFontMetrics();

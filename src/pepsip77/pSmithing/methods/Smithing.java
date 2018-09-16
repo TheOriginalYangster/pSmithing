@@ -29,7 +29,7 @@ public class Smithing {
                 if (bar != null) {
                     Packets.sendAction(447, bar.getID(), bar.getSlot(), 3214);
                     Time.sleep(400, 500);
-                    Packets.sendAction(62, anvil.uid, anvil.getX(), anvil.getY(), anvil.getId(), 1);
+                    Packets.sendAction(62, anvil.uid, anvil.getX(), anvil.getY(), 1);
                     Methods.conditionalSleep(new SleepCondition() {
                         @Override
                         public boolean isValid() {

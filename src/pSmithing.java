@@ -45,8 +45,8 @@ public class pSmithing extends ActiveScript implements PaintListener {
 
         Data.animTimer = new Timer(0);
         Data.runtime = new Timer(0);
-        Data.startLevel = Skills.getCurrentLevel(Skills.SMITHING);
-        Data.startXp = Skills.getCurrentExp(Skills.SMITHING);
+        Data.startLevel = Skills.SMITHING.getCurrentLevel();
+        Data.startXp = Skills.SMITHING.getCurrentExp();
         return true;
     }
 
