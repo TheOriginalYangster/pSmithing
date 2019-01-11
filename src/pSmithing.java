@@ -15,7 +15,7 @@ import xobot.script.methods.tabs.Skills;
 import xobot.script.util.Time;
 import xobot.script.util.Timer;
 
-@Manifest(authors = { "pepsip77" }, name = "pSmithing", version = 0.2, description = "AIO smither")
+@Manifest(authors = { "pepsip77" }, name = "pSmithing", version = 0.3, description = "AIO smither")
 public class pSmithing extends ActiveScript implements PaintListener {
     @Override
     public int loop() {

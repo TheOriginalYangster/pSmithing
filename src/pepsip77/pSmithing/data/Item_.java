@@ -18,10 +18,10 @@ public enum Item_ {
     FULL_HELM(1, 1122, new int[] {1155, 1153, 1157, 1159, 1161, 1163}),
     SQUARE_SHIELD(2, 1122, new int[] {1173, 1175, 1177, 1181, 1183, 1185}),
     KITE_SHIELD(3, 1122, new int[] {1189, 1191, 1193, 1197, 1199, 1201}),
-    NAILS(4, 1122, new int[] {4819, 4820, 1539, 4822, 4823, 4824}),
-    BOLTS(0, 1123, new int[] {9375, 9377, 9378, 9379, 9380, 9381}),
+    NAILS(3, 1123, new int[] {4819, 4820, 1539, 4822, 4823, 4824}),
+    BOLTS(2, 1123, new int[] {9375, 9377, 9378, 9379, 9380, 9381}),
     ARROWTIPS(1, 1123, new int[] {39, 40, 41, 42, 43, 44}),
-    THROWING_KNIVES(2, 1123, new int[] {864, 863, 865, 866, 867, 868});
+    THROWING_KNIVES(4, 1123, new int[] {864, 863, 865, 866, 867, 868});
 
     private int action2Id;
     private int action3Id;
